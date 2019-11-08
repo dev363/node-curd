@@ -6,16 +6,8 @@ import db from "./config/database";
 import hb from "./config/handlebars"
 import users from "./routes/users"
 
+
 const app = express();
-
-//set template engine
-// app.engine("hbs", hb);
-// app.set("view engine","hbs");
-
-// //make way for some custom css, js and images
-// app.use('/custom/css', express.static(__dirname + '/views/static/css'));
-// app.use('/custom/js', express.static(__dirname + '/views/static/js'));
-// app.use('/custom/imgs', express.static(__dirname + '/views/static/imgs'));
 
 app.use(cors());
 app.use(bodyparser.json());

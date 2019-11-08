@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+require('dotenv').config();
 
 mongoose.connect(
-   "mongodb://localhost:27017/mm",
-    { 
+   `mongodb://localhost:27017/${process.env.DB}`,
+    {
       useNewUrlParser: true,
       useFindAndModify: false
     }

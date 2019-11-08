@@ -7,6 +7,7 @@ require('dotenv').config();
 
 const router = express.Router();
 
+// Email Config
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -15,6 +16,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+// forget password request
 router.get("/forget-password", (req, res, next) => {
 
   if(req.query.email){
@@ -52,8 +54,8 @@ router.get("/forget-password", (req, res, next) => {
   }
 });
 
+// Set new password request
 router.post("/set-password", (req, res, next) => {
-    console.log(req.body)
   if(req.body.email && req.body.recoveryToken && req.body.password){
     User.updateOne({email:req.body.email, recoveryToken: req.body.recoveryToken}, {
         password:req.body.password,
@@ -75,18 +77,16 @@ router.post("/set-password", (req, res, next) => {
   }
 });
 
-
+// Authorization midelware
 router.use(function (req, res, next) {
   var credentials = auth(req)
   if (credentials && credentials.name!="" && credentials.pass!="") {
     User.findOne({email:credentials.name,password:credentials.pass})
     .exec()
     .then(doc=>{
-      console.log("sdad", doc)
       if(!doc){
         res.status(404).send({message:'Invalid user credentials'})
       }else{
-        console.log("Auth valid")
         next()
       }
     })
@@ -98,13 +98,14 @@ router.use(function (req, res, next) {
   }
 })
 
+// get Single user data
 router.get("/:id", (req, res, next) => {
 
-    User.findById(req.params.id)
+    User.findById(req.params.id,{__v:0,recoveryToken:0})
         .exec()
-        .then(docs => {
+        .then(user => {
             res.status(200).json({
-                docs
+                user
             });
         })
         .catch(err => {
@@ -115,12 +116,13 @@ router.get("/:id", (req, res, next) => {
 });
 
 
+// get All user data
 router.get("/", (req, res, next) => {
-    User.find({})
+    User.find({},{__v:0,recoveryToken:0})
         .exec()
-        .then(docs => {
+        .then(users => {
             res.status(200).json({
-                docs
+                users
             });
         })
         .catch(err => {
@@ -128,13 +130,13 @@ router.get("/", (req, res, next) => {
         });
 });
 
+// Add new User
 router.post("/add", (req, res, next) => {
     const user = new User({
         _id: mongoose.Types.ObjectId(),
         name: req.body.name,
         email:req.body.email,
-        password:req.body.password,
-        address:req.body.address
+        password:req.body.password
     });
 
     user.save()
@@ -151,8 +153,9 @@ router.post("/add", (req, res, next) => {
     });
 });
 
+// update user data
 router.put("/:id", (req,res,next)=>{
-
+  if(req.body.email || req.body.name  || req.body.password){
     User.findByIdAndUpdate(req.params.id, req.body, {new: true})
     .then(note => {
         if(!note) {
@@ -166,8 +169,14 @@ router.put("/:id", (req,res,next)=>{
             message: err.message
         });
     });
+  }else{
+    return res.status(404).send({
+        message: `No perameters pass.`
+    });
+  }
 })
 
+// delete user by Id
 router.delete("/:id", (req, res, next) => {
     User.findByIdAndRemove(req.params.id)
     .then(user => {
