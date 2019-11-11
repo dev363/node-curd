@@ -1,5 +1,14 @@
-# UserApi
-Hello, welcoe to your on UserApi. Many of these resources allow create, read, update and delete operations. The REST API maps CRUD operations to HTTP methods. The following table specifies which HTTP method maps to which operation.
+# User Api
+Hello, welcome to your on Our User Api. As per REST guidelines, we should use only HTTP methods to perform CRUD operation on any resource. In this Api, we are going to use 4 HTTP methods like GET, POST, PUT and DELETE to make our REST API.
+This Api is developing in Nodejs using Express framework and MongoDB database.
+
+## Instructions to install Project setup
+```
+1) git clone https://github.com/dev363/node-curd.git
+2) npm install
+3) cd node-curd
+4) node index.js
+```
 
 ## Basic Authentication
 Basic authentication is a simple authentication scheme built into the HTTP protocol. The client sends HTTP requests with the Authorization header that contains the word Basic word followed by a space and a base64-encoded string username:password. For example, to authorize as demo / p@55w0rd the client would send
@@ -24,6 +33,16 @@ name: Unique, required,
 email: Unique, lowecase,Valid email,
 password:required, String,
 recoveryToken: String (Only use for set-password)
+```
+
+## Api response return status codes
+```
+HTTP Methods	CRUD	Status Code
+GET	Read	200 (OK), 404 (Not Found)
+POST	Create	201 (OK), 404 (Not Found),
+PUT	Update	200 (OK), 204 (No Content), 404 (Not Found)
+DELETE	Delete	200 (OK), 404 (Not Found)
+
 ```
 
 # Api operations
