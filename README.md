@@ -138,6 +138,9 @@ curl -X PUT \
 ### Response
 Success (200)
 ```
+{
+    "message": "User updated successfully."
+}
 
 ```
 error (404)
