@@ -38,10 +38,10 @@ recoveryToken: String (Only use for set-password)
 ## Api response return status codes
 ```
 HTTP Methods	CRUD	Status Code
-GET	Read	200 (OK), 404 (Not Found)
-POST	Create	201 (OK), 404 (Not Found),
-PUT	Update	200 (OK), 204 (No Content), 404 (Not Found)
-DELETE	Delete	200 (OK), 404 (Not Found)
+GET	Read	200 (OK), 400(Not Found)
+POST	Create	201 (OK), 400(Not Found),
+PUT	Update	200 (OK), 204 (No Content), 400 (Not Found)
+DELETE	Delete	200 (OK), 400 (Not Found)
 
 ```
 
